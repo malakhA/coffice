@@ -1,0 +1,34 @@
+#!/bin/sh
+
+set -e
+
+COFFICE_CONFIGURATION_FILE=/etc/coffice/coffice.conf
+COFFICE_GROUP="coffice"
+COFFICE_DATA_DIR=/var/lib/coffice
+COFFICE_LOG_DIR=/var/log/coffice
+COFFICE_USER="coffice"
+
+case "${1}" in
+    configure)
+        if ! getent passwd | grep -q "^coffice:"; then
+            adduser --system --home $COFFICE_DATA_DIR --quiet --group $COFFICE_USER
+        fi
+        # Register "$COFFICE_USER" as a postgres user with "Create DB" role attribute
+        su - postgres -c "createuser -d -R -S $COFFICE_USER" 2> /dev/null || true
+        # Configuration file
+        chown $COFFICE_USER:$COFFICE_GROUP $COFFICE_CONFIGURATION_FILE
+        chmod 0640 $COFFICE_CONFIGURATION_FILE
+        # Log
+        mkdir -p $COFFICE_LOG_DIR
+        chown $COFFICE_USER:$COFFICE_GROUP $COFFICE_LOG_DIR
+        chmod 0750 $COFFICE_LOG_DIR
+        # Data dir
+        chown $COFFICE_USER:$COFFICE_GROUP $COFFICE_DATA_DIR
+        ;;
+    *)
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0

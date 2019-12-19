@@ -1,0 +1,28 @@
+#!/bin/sh
+
+set -e
+
+COFFICE_LIB_DIR=/var/lib/coffice
+COFFICE_USER="coffice"
+COFFICE_GROUP="coffice"
+
+case "${1}" in
+    remove)
+        deluser --quiet --system $COFFICE_USER || true
+        delgroup --quiet --system --only-if-empty $COFFICE_GROUP || true
+        ;;
+
+    purge)
+        if [ -d "$COFFICE_LIB_DIR" ]; then
+            rm -rf $COFFICE_LIB_DIR
+        fi
+        ;;
+
+    upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+        ;;
+
+esac
+
+#DEBHELPER#
+
+exit 0

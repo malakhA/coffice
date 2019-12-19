@@ -1,0 +1,2 @@
+debian/coffice.conf /etc/coffice
+README.md /usr/share/doc/coffice

@@ -1,0 +1,5 @@
+/var/log/coffice/*.log {
+    copytruncate
+    missingok
+    notifempty
+}

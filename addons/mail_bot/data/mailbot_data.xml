@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<coffice>
+    <data>
+        <record id="base.partner_root" model="res.partner">
+            <field name="name">COfficeBot</field>
+            <field name="email">cofficebot@example.com</field>
+            <field name="image_1920" type="base64" file="mail/static/src/img/cofficebot.png"/>
+        </record>
+    </data>
+</coffice>
